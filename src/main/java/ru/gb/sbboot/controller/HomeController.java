@@ -1,0 +1,44 @@
+package ru.gb.sbboot.controller;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+import ru.gb.sbboot.config.ProductProps;
+
+import java.util.Collections;
+
+@Controller
+@RequiredArgsConstructor
+public class HomeController {
+
+    private final ProductProps productProps;
+
+    @ResponseBody
+    @GetMapping
+    public String HelloMessage() {
+        return "Hello string boot";
+    }
+
+    @GetMapping("/hello")
+    public String helloMessageJsp(Model model) {
+        String message;
+        if (productProps != null && !CollectionUtils.isEmpty(productProps.getProducts())) {
+            message = "size: " + productProps.getProducts().size();
+        } else {
+            message = "Empty of products";
+        }
+        model.addAttribute("msg", message);
+        return "hello";
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public String handleNPE(NullPointerException e) {
+        return "Exception msg " + e.getMessage();
+    }
+}
