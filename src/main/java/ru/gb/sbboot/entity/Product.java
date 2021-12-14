@@ -1,6 +1,5 @@
 package ru.gb.sbboot.entity;
 
-
 import lombok.*;
 
 @Getter
@@ -10,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 public class Product {
     private Integer id;
-    private String title;
-    private int cost;
+    private String name;
+    private double cost;
 
 
 }
